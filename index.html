@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日热点日报</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header .date {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .section-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: #333;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .card-title {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .card-meta {
+            font-size: 0.85em;
+            color: #666;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .ai-section .card { border-left-color: #00d4ff; }
+        .ecommerce-section .card { border-left-color: #ff6b6b; }
+        .startup-section .card { border-left-color: #4ecdc4; }
+        
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8em; }
+            .section { padding: 20px; }
+            .section-title { font-size: 1.4em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📰 每日热点日报</h1>
+            <div class="date" id="currentDate"></div>
+        </header>
+        
+        <!-- AI 领域 -->
+        <div class="section ai-section">
+            <div class="section-header">
+                <span class="section-icon">🤖</span>
+                <h2 class="section-title">AI 领域</h2>
+            </div>
+            <div id="ai-cards">
+                <!-- 卡片由 JS 动态生成 -->
+            </div>
+        </div>
+        
+        <!-- 跨境电商 -->
+        <div class="section ecommerce-section">
+            <div class="section-header">
+                <span class="section-icon">🛒</span>
+                <h2 class="section-title">跨境电商</h2>
+            </div>
+            <div id="ecommerce-cards">
+                <!-- 卡片由 JS 动态生成 -->
+            </div>
+        </div>
+        
+        <!-- 产品创业 -->
+        <div class="section startup-section">
+            <div class="section-header">
+                <span class="section-icon">🚀</span>
+                <h2 class="section-title">产品创业</h2>
+            </div>
+            <div id="startup-cards">
+                <!-- 卡片由 JS 动态生成 -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>自动更新 · 每日早晨 8 点推送</p>
+        </footer>
+    </div>
+    
+    <script src="data.js"></script>
+    <script>
+        // 设置日期
+        const dateEl = document.getElementById('currentDate');
+        const now = new Date();
+        dateEl.textContent = now.toLocaleDateString('zh-CN', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            weekday: 'long'
+        });
+        
+        // 渲染卡片
+        function renderCards(containerId, items, category) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = items.map((item, index) => `
+                <div class="card">
+                    <div class="card-title">${index + 1}. ${item.title}</div>
+                    <div class="card-meta">
+                        ${item.source ? `<span>📍 ${item.source}</span>` : ''}
+                        ${item.hot ? `<span>🔥 ${item.hot}</span>` : ''}
+                        ${item.url ? `<span><a href="${item.url}" target="_blank" style="color:#667eea">查看详情 →</a></span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 渲染所有板块
+        if (typeof reportData !== 'undefined') {
+            renderCards('ai-cards', reportData.ai, 'ai');
+            renderCards('ecommerce-cards', reportData.ecommerce, 'ecommerce');
+            renderCards('startup-cards', reportData.startup, 'startup');
+        }
+    </script>
+</body>
+</html>

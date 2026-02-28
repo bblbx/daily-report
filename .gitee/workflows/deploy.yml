@@ -1,0 +1,22 @@
+name: Deploy to Gitee Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Gitee Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.GITEE_DEPLOY_KEY }}
+          publish_branch: gh-pages
+          publish_dir: ./
+          external_repository: YOUR_USERNAME/daily-report
+          force_orphan: true
