@@ -1,0 +1,8 @@
+{
+  "name": "daily-report",
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "devCommand": null,
+  "installCommand": null,
+  "framework": "static"
+}
