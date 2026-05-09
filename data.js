@@ -1,4 +1,4 @@
-// 每日热点数据 - 自动更新于 2026-05-09 01:48:39
+// 每日热点数据 - 自动更新于 2026-05-09 02:28:46
 const reportData = {
     "ai": [
         {
@@ -66,9 +66,9 @@ const reportData = {
     ],
     "startup": [
         {
-            "title": "查看 Indie Hackers 热门创业故事",
+            "title": "SaaS 创业经验分享",
             "source": "Indie Hackers",
-            "hot": "💡",
+            "hot": "💰",
             "url": "https://www.indiehackers.com/"
         },
         {
